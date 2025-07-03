@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
+
+project(geant4-neutron-sim4 LANGUAGES CXX)
+
+find_package(Geant4 REQUIRED)
+include(${Geant4_USE_FILE})
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+
+file(GLOB SOURCES
+    src/*.cc
+    main.cc
+)
+
+add_executable(main ${SOURCES})
+
+target_link_libraries(main ${Geant4_LIBRARIES})
+
+target_compile_features(main PUBLIC cxx_11)
+target_compile_options(main PRIVATE
+    -Wall
+    -Wextra
+    -pedantic
+)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
