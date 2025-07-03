@@ -8,6 +8,7 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4Event.hh"
+#include "G4EventManager.hh" // <<---
 
 SteppingAction::SteppingAction(RunAction* runAction)
 : G4UserSteppingAction(),
