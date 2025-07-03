@@ -15,11 +15,14 @@ file(GLOB SOURCES
     main.cc
 )
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 add_executable(main ${SOURCES})
 
 target_link_libraries(main ${Geant4_LIBRARIES})
 
-target_compile_features(main PUBLIC cxx_11)
+# target_compile_features(main PUBLIC cxx_11)
 target_compile_options(main PRIVATE
     -Wall
     -Wextra
