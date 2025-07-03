@@ -1,15 +1,17 @@
 #include "SteppingAction.hh"
-#include "g4analysis.hh"
+#include "RunAction.hh" // RunAction'ın tam tanımı gerekli
 
 #include "G4Step.hh"
 #include "G4Track.hh"
 #include "G4VPhysicalVolume.hh"
 #include "G4LogicalVolume.hh"
 #include "G4UnitsTable.hh"
+#include "G4SystemOfUnits.hh" // Birimler için
+#include "G4Event.hh" // EventID için
 
-SteppingAction::SteppingAction()
+SteppingAction::SteppingAction(RunAction* runAction)
 : G4UserSteppingAction(),
-  fAnalysisManager(G4AnalysisManager::Instance())
+  fRunAction(runAction)
 {
 }
 
@@ -23,21 +25,20 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
     if (volume->GetLogicalVolume()->GetName() == "LeadCylinder") {
         G4Track* track = aStep->GetTrack();
+        std::ofstream& output = fRunAction->GetOutputFile();
 
-        fAnalysisManager->FillNtupleIColumn(0, 0, aStep->GetTrack()->GetCurrentEvent()->GetEventID());
-        fAnalysisManager->FillNtupleSColumn(0, 1, track->GetDefinition()->GetParticleName());
-        fAnalysisManager->FillNtupleIColumn(0, 2, track->GetTrackID());
-        fAnalysisManager->FillNtupleIColumn(0, 3, track->GetParentID());
-        fAnalysisManager->FillNtupleDColumn(0, 4, track->GetKineticEnergy());
-        fAnalysisManager->FillNtupleDColumn(0, 5, aStep->GetTotalEnergyDeposit());
-        fAnalysisManager->FillNtupleDColumn(0, 6, track->GetGlobalTime());
-        fAnalysisManager->FillNtupleDColumn(0, 7, track->GetLocalTime());
-        fAnalysisManager->FillNtupleDColumn(0, 8, aStep->GetStepLength());
-        fAnalysisManager->FillNtupleDColumn(0, 9, track->GetPosition().x());
-        fAnalysisManager->FillNtupleDColumn(0, 10, track->GetPosition().y());
-        fAnalysisManager->FillNtupleDColumn(0, 11, track->GetPosition().z());
-        fAnalysisManager->FillNtupleSColumn(0, 12, volume->GetName());
-
-        fAnalysisManager->AddNtupleRow(0);
+        output << aStep->GetTrack()->GetCurrentEvent()->GetEventID() << ",";
+        output << track->GetDefinition()->GetParticleName() << ",";
+        output << track->GetTrackID() << ",";
+        output << track->GetParentID() << ",";
+        output << G4BestUnit(track->GetKineticEnergy(), "Energy") << ","; // MeV cinsinden
+        output << G4BestUnit(aStep->GetTotalEnergyDeposit(), "Energy") << ","; // MeV cinsinden
+        output << G4BestUnit(track->GetGlobalTime(), "Time") << ","; // ns cinsinden
+        output << G4BestUnit(track->GetLocalTime(), "Time") << ","; // ns cinsinden
+        output << G4BestUnit(aStep->GetStepLength(), "Length") << ","; // mm cinsinden
+        output << G4BestUnit(track->GetPosition().x(), "Length") << ","; // mm cinsinden
+        output << G4BestUnit(track->GetPosition().y(), "Length") << ","; // mm cinsinden
+        output << G4BestUnit(track->GetPosition().z(), "Length") << ","; // mm cinsinden
+        output << volume->GetName() << "\n";
     }
 }

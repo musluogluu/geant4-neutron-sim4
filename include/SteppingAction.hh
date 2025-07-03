@@ -2,20 +2,20 @@
 #define SteppingAction_h 1
 
 #include "G4UserSteppingAction.hh"
-#include "g4analysis.hh"
 
-class G4AnalysisManager;
+class RunAction; // RunAction
+class G4Step;
 
 class SteppingAction : public G4UserSteppingAction
 {
   public:
-    SteppingAction();
+    SteppingAction(RunAction* runAction);
     virtual ~SteppingAction();
 
     virtual void UserSteppingAction(const G4Step*);
 
   private:
-    G4AnalysisManager* fAnalysisManager;
+    RunAction* fRunAction; // RunAction
 };
 
 #endif

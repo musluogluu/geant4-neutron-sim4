@@ -2,9 +2,6 @@
 #define EventAction_h 1
 
 #include "G4UserEventAction.hh"
-#include "g4analysis.hh" // Geant4 analiz yöneticisi başlığı
-
-class G4AnalysisManager;
 
 class EventAction : public G4UserEventAction
 {
@@ -16,7 +13,7 @@ class EventAction : public G4UserEventAction
     virtual void EndOfEventAction(const G4Event*);
 
   private:
-    G4AnalysisManager* fAnalysisManager;
+    // Analiz yöneticisi yok, doğrudan çıktı yok
 };
 
 #endif

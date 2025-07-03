@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     runManager->SetUserInitialization(new DetectorConstruction());
 
     G4PhysListFactory physListFactory;
-    runManager->SetUserInitialization(physListFactory.GetPhysicsList("FTFP_BERT")); // Hata düzeltildi: Get yerine GetPhysicsList
+    runManager->SetUserInitialization(physListFactory.GetPhysicsList("FTFP_BERT")); // GetPhysicsList düzeltmesi burada önemli
 
     runManager->SetUserInitialization(new ActionInitialization());
 
