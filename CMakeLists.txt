@@ -2,10 +2,12 @@ cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
 project(geant4-neutron-sim4 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17) # Geant4 v11.3.0 için C++17
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Geant4 REQUIRED)
+set(Geant4_DIR "/home/hexon/geant4_install/geant4-v11.3.0-install/lib/Geant4-11.3.0") 
+
+find_package(Geant4 REQUIRED CONFIG) # CONFIG
 include(${Geant4_USE_FILE})
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
