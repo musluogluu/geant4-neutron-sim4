@@ -1,5 +1,5 @@
 #include "EventAction.hh"
-#include "g4root.hh"
+#include "g4analysis.hh"
 
 #include "G4Event.hh"
 #include "G4UnitsTable.hh"
